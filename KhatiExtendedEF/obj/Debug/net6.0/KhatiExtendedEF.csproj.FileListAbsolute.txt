@@ -1,0 +1,14 @@
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\bin\Debug\net6.0\KhatiExtendedEF.deps.json
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\bin\Debug\net6.0\KhatiExtendedEF.runtimeconfig.json
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\bin\Debug\net6.0\KhatiExtendedEF.dll
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\bin\Debug\net6.0\KhatiExtendedEF.pdb
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.csproj.AssemblyReference.cache
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.AssemblyInfoInputs.cache
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.AssemblyInfo.cs
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.csproj.CoreCompileInputs.cache
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.dll
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\refint\KhatiExtendedEF.dll
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.pdb
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.genruntimeconfig.cache
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\ref\KhatiExtendedEF.dll
