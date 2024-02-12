@@ -19,36 +19,75 @@ namespace KhatiExtendedEF.Context
         {
             return typeof(T);
         }
+        private Type? GetTypeFromDifferentAssembly(string typeName)
+        {
+            Type? type = Type.GetType(typeName);
+
+            if (type != null)
+            {
+                return type;
+            }
+            else
+            {
+                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                foreach (Assembly assembly in assemblies)
+                {
+                    Type[] types;
+                    try
+                    {
+                        types = assembly.GetTypes();
+                    }
+                    catch (ReflectionTypeLoadException ex)
+                    {
+                        types = ex.Types;
+                    }
+
+                    foreach (Type t in types)
+                    {
+                        if (t.FullName == typeName)
+                        {
+                            return t;
+                        }
+                    }
+                }
+
+                return null;
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            var assembly = Assembly.GetExecutingAssembly();
-
-            var implementingClasses = assembly.GetTypes()
-                .Where(type => EntityType().IsAssignableFrom(type) && type.IsClass)
-                .Select(type => new { FullName = type.FullName, Name = type.Name })
-                .ToArray();
-
             List<EntityContext> types = new List<EntityContext>();
 
-            foreach (var item in implementingClasses)
+            var assembilies = AppDomain.CurrentDomain.GetAssemblies();
+
+            foreach (var assembly in assembilies)
             {
-                if (item == null || string.IsNullOrEmpty(item.FullName))
-                    throw new Exception(string.Format("Class Value Null Found"));
 
-                Type? entityType = Type.GetType(item.FullName);
+                var implementingClasses = assembly.GetTypes()
+                    .Where(type => EntityType().IsAssignableFrom(type) && type.IsClass)
+                    .Select(type => new { FullName = type.FullName, Name = type.Name })
+                    .ToArray();
 
-                if (entityType == null)
-                    throw new Exception(string.Format("{0} Cannot Converted to Entity", item));
-
-                var model = new EntityContext()
+                foreach (var item in implementingClasses)
                 {
-                    Entity = item.Name,
-                    Type = entityType,
-                };
+                    if (item == null || string.IsNullOrEmpty(item.FullName))
+                        throw new Exception(string.Format("Class Value Null Found"));
 
-                types.Add(model);
+                    Type? entityType = GetTypeFromDifferentAssembly(item.FullName);
+
+                    if (entityType == null)
+                        throw new Exception(string.Format("{0} Cannot Converted to Entity", item));
+
+                    var model = new EntityContext()
+                    {
+                        Entity = item.Name,
+                        Type = entityType,
+                    };
+
+                    types.Add(model);
+                }
             }
 
             ConfigureEntities(modelBuilder, types);
