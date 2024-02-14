@@ -1,4 +1,5 @@
 ﻿using KhatiExtendedEF.Context;
+using KhatiExtendedEF.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -34,14 +35,19 @@ namespace KhatiExtendedEF.Repositories
             return await Task.FromResult(delete);
         }
 
-        public virtual IQueryable<TEntity> Get(
-            Expression<Func<TEntity, bool>> expression)
+        public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression)
         {
-
             var list = _databaseContext.Set<TEntity>().Where(expression).AsNoTracking();
             return list;
-
         }
+
+        public virtual async Task<PaginationResponseModel<TEntity>> GetPagination(Expression<Func<TEntity, bool>> expression, int pageSize = 10, int pageIndex = 1)
+        {
+            var list = _databaseContext.Set<TEntity>().Where(expression).AsNoTracking();
+            var pagination = await PaginationAsync(list, pageSize, pageIndex);
+            return pagination;
+        }
+
         public virtual async Task<TEntity?> GetEntity(Expression<Func<TEntity, bool>> expression)
         {
             var model = await _databaseContext.Set<TEntity>().Where(expression).AsNoTracking().FirstOrDefaultAsync();
@@ -115,6 +121,23 @@ namespace KhatiExtendedEF.Repositories
                 return (false, default(T), "Operation Failed", ex.Message);
             }
         }
+
+        private async Task<PaginationResponseModel<T>> PaginationAsync<T>(IQueryable<T> list, int pageSize = 10, int pageIndex = 1) where T : class
+        {
+            var model = new PaginationResponseModel<T>()
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                TotalData = await list.CountAsync(),
+                Data = await list.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync(),
+            };
+
+            model.HasNextPage = Math.Ceiling(Convert.ToDecimal(model.TotalData) / Convert.ToDecimal(pageSize)) > model.PageIndex;
+            model.HasPreviousPage = model.TotalData > pageSize && model.PageIndex > 1;
+
+            return model;
+        }
+
 
         #endregion
 

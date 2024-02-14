@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using KhatiExtendedEF.Model;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
 namespace KhatiExtendedEF.Repositories
@@ -11,6 +12,7 @@ namespace KhatiExtendedEF.Repositories
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression);
         Task<TEntity?> GetEntity(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> Get();
+        Task<PaginationResponseModel<TEntity>> GetPagination(Expression<Func<TEntity, bool>> expression, int pageSize = 10, int pageIndex = 1);
         Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> expression = null);
 
         #region Commits
