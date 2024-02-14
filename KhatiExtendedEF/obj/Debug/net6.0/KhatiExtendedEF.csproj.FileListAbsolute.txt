@@ -10,3 +10,5 @@ C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\Kha
 C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\refint\KhatiExtendedEF.dll
 C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.pdb
 C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\ref\KhatiExtendedEF.dll
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\bin\Debug\net6.0\KhatiExtendedEF.runtimeconfig.json
+C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\obj\Debug\net6.0\KhatiExtendedEF.genruntimeconfig.cache

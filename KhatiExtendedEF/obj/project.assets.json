@@ -1318,7 +1318,7 @@
           "Microsoft.EntityFrameworkCore.Relational": "6.0.26"
         },
         "compile": {
-          "lib/net6.0/_._": {}
+          "lib/net6.0/Microsoft.EntityFrameworkCore.Design.dll": {}
         },
         "runtime": {
           "lib/net6.0/Microsoft.EntityFrameworkCore.Design.dll": {}
@@ -11015,8 +11015,6 @@
             "version": "[6.0.26, )"
           },
           "Microsoft.EntityFrameworkCore.Tools": {
-            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-            "suppressParent": "All",
             "target": "Package",
             "version": "[6.0.26, )"
           },
