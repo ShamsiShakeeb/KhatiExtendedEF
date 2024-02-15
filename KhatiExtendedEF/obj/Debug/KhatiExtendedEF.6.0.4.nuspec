@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>KhatiExtendedEF</id>
+    <version>6.0.4</version>
+    <authors>Khati</authors>
+    <icon>images.jpg</icon>
+    <readme>KhatiExtendEf.md</readme>
+    <description>This Nuget Can be Use for to Maintain Code First Database Approach. It consumes the necessary libraries of Entity Framework and Provides more maintainability and clean coding inside application development.</description>
+    <dependencies>
+      <group targetFramework="net6.0">
+        <dependency id="Microsoft.AspNet.Mvc" version="5.3.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Identity.EntityFrameworkCore" version="6.0.26" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore" version="6.0.26" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="6.0.26" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.Sqlite" version="6.0.26" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.Tools" version="6.0.26" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.VisualStudio.Web.CodeGeneration.Design" version="6.0.16" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\bin\Debug\net6.0\KhatiExtendedEF.runtimeconfig.json" target="lib\net6.0\KhatiExtendedEF.runtimeconfig.json" />
+    <file src="C:\Users\BS483\source\repos\KhatiExtendedEF\KhatiExtendedEF\bin\Debug\net6.0\KhatiExtendedEF.dll" target="lib\net6.0\KhatiExtendedEF.dll" />
+    <file src="C:\Users\BS483\Desktop\KhatiExtendEf.md" target="\KhatiExtendEf.md" />
+    <file src="C:\Users\BS483\Downloads\images.jpg" target="\images.jpg" />
+  </files>
+</package>

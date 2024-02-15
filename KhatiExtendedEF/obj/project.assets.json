@@ -10953,7 +10953,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "6.0.3",
+    "version": "6.0.5",
     "restore": {
       "projectUniqueName": "C:\\Users\\BS483\\source\\repos\\KhatiExtendedEF\\KhatiExtendedEF\\KhatiExtendedEF.csproj",
       "projectName": "KhatiExtendedEF",
