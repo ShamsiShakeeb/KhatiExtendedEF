@@ -51,7 +51,7 @@ Note: You Can Add Entity Framework data annotation inside model class if require
 # Add Middleware
 
 ```csharp
-builder.Services.ExtendedEF<PersonDBContext>(lifeTime: ServiceLifetime.Singleton);
+builder.Services.ExtendedEF<PersonDBContext>();
 ```
 
 #DBContext with Identity
@@ -77,7 +77,7 @@ Note: You can use Type of IdentityUser if required.
 #Add Middleware If you're using Identity Context
 
 ```csharp
-builder.Services.ExtendedEF<PersonDBContext>(lifeTime: ServiceLifetime.Singleton);
+builder.Services.ExtendedEF<PersonDBContext>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
           .AddEntityFrameworkStores<PersonDBContext>()
@@ -135,6 +135,3 @@ public class HomeController : Controller
         }
     }
 ```
-
-
-

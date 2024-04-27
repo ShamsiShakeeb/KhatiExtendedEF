@@ -6,9 +6,9 @@ namespace KhatiExtendedEF.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class, new()
     {
-        Task<EntityEntry<TEntity>> Insert(TEntity model);
-        Task<EntityEntry<TEntity>> Update(TEntity model);
-        Task<EntityEntry<TEntity>> Delete(TEntity model);
+        Task<EntityEntry<TEntity>> InsertAsync(TEntity model);
+        EntityEntry<TEntity> Update(TEntity model);
+        EntityEntry<TEntity> Delete(TEntity model);
         IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression);
         Task<TEntity?> GetEntity(Expression<Func<TEntity, bool>> expression);
         IQueryable<TEntity> Get();

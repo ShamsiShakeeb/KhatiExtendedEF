@@ -7,12 +7,9 @@ namespace KhatiExtendedEF.Resolver
     public static class ExtendedEFDependencyResolver
     {
         private static int setRepo = 0;
-        public static void ExtendedEF<T>(this IServiceCollection service, T? context = null, ServiceLifetime? lifeTime = null) where T : DbContext
+        public static void ExtendedEF<T>(this IServiceCollection service) where T : DbContext
         {
-            if (lifeTime == null)
-                service.AddDbContext<T>();
-            else
-                service.AddDbContext<T>(lifeTime.Value);
+            service.AddDbContext<T>(ServiceLifetime.Scoped);
 
             if (setRepo == 0)
             {

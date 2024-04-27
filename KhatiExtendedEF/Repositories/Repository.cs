@@ -19,20 +19,20 @@ namespace KhatiExtendedEF.Repositories
             _databaseContext = (DbContext)_serviceProvider.GetService(dbContext);
         }
 
-        public virtual async Task<EntityEntry<TEntity>> Insert(TEntity model)
+        public virtual async Task<EntityEntry<TEntity>> InsertAsync(TEntity model)
         {
-            var insert = _databaseContext.Set<TEntity>().Add(model);
-            return await Task.FromResult(insert);
+            var insert = await _databaseContext.Set<TEntity>().AddAsync(model);
+            return insert;
         }
-        public virtual async Task<EntityEntry<TEntity>> Update(TEntity model)
+        public virtual EntityEntry<TEntity> Update(TEntity model)
         {
             var update = _databaseContext.Set<TEntity>().Update(model);
-            return await Task.FromResult(update);
+            return update;
         }
-        public virtual async Task<EntityEntry<TEntity>> Delete(TEntity model)
+        public virtual EntityEntry<TEntity> Delete(TEntity model)
         {
             var delete = _databaseContext.Set<TEntity>().Remove(model);
-            return await Task.FromResult(delete);
+            return delete;
         }
 
         public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression)
