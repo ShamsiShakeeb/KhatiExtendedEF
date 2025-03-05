@@ -17,7 +17,7 @@ using System.Reflection;
     "he necessary libraries of Entity Framework and Provides more maintainability and" +
     " clean coding inside application development.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("6.0.7.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("6.0.7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("6.0.7+699761fbafa5c397208429be44d785d83f98e158")]
 [assembly: System.Reflection.AssemblyProductAttribute("KhatiExtendedEF")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KhatiExtendedEF")]
 [assembly: System.Reflection.AssemblyVersionAttribute("6.0.7.0")]
