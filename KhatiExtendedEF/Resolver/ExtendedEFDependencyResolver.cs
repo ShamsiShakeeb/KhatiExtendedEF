@@ -1,4 +1,5 @@
 ﻿using KhatiExtendedEF.Repositories;
+using KhatiExtendedEF.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ namespace KhatiExtendedEF.Resolver
             if (setRepo == 0)
             {
                 service.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+                service.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
                 setRepo = setRepo + 1;
             }
         }

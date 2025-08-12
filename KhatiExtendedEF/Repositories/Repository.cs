@@ -24,17 +24,28 @@ namespace KhatiExtendedEF.Repositories
             var insert = await _databaseContext.Set<TEntity>().AddAsync(model);
             return insert;
         }
+        public virtual async Task InsertRangeAsync(IEnumerable<TEntity> model)
+        {
+            await _databaseContext.Set<TEntity>().AddRangeAsync(model);
+        }
         public virtual EntityEntry<TEntity> Update(TEntity model)
         {
             var update = _databaseContext.Set<TEntity>().Update(model);
             return update;
+        }
+        public virtual void UpdateRange(IEnumerable<TEntity> model)
+        {
+            _databaseContext.Set<TEntity>().UpdateRange(model);
         }
         public virtual EntityEntry<TEntity> Delete(TEntity model)
         {
             var delete = _databaseContext.Set<TEntity>().Remove(model);
             return delete;
         }
-
+        public virtual void DeleteRange(IEnumerable<TEntity> model)
+        {
+            _databaseContext.Set<TEntity>().RemoveRange(model);
+        }
         public virtual IQueryable<TEntity> Get(Expression<Func<TEntity, bool>> expression)
         {
             var list = _databaseContext.Set<TEntity>().Where(expression).AsNoTracking();
@@ -68,60 +79,6 @@ namespace KhatiExtendedEF.Repositories
             return model;
         }
 
-        #region Commits
-        public async Task<(bool success, string? message, string? errorMessage)> Commit(Func<Task> operations)
-        {
-            try
-            {
-                await operations();
-                await _databaseContext.SaveChangesAsync();
-                return (true, "Operation Successfull", null);
-            }
-            catch (Exception ex)
-            {
-                return (false, "Operation Failed", ex.Message);
-            }
-        }
-        public async Task<(bool success, string? message, string? errorMessage)> Commit(Action operations)
-        {
-            try
-            {
-                operations();
-                await _databaseContext.SaveChangesAsync();
-                return (true, "Operation Successfull", null);
-            }
-            catch (Exception ex)
-            {
-                return (false, "Operation Failed", ex.Message);
-            }
-        }
-        public async Task<(bool success, T? data, string? message, string? errorMessage)> Commit<T>(Func<Task<T?>> operations)
-        {
-            try
-            {
-                var data = await operations();
-                await _databaseContext.SaveChangesAsync();
-                return (true, data, "Operation Successfull", null);
-            }
-            catch (Exception ex)
-            {
-                return (false, default(T), "Operation Failed", ex.Message);
-            }
-        }
-        public async Task<(bool success, T? data, string? message, string? errorMessage)> Commit<T>(Func<T> operations)
-        {
-            try
-            {
-                var data = operations();
-                await _databaseContext.SaveChangesAsync();
-                return (true, data, "Operation Successfull", null);
-            }
-            catch (Exception ex)
-            {
-                return (false, default(T), "Operation Failed", ex.Message);
-            }
-        }
-
         private async Task<PaginationResponseModel<T>> PaginationAsync<T>(IQueryable<T> list, int pageSize = 10, int pageIndex = 1) where T : class
         {
             var model = new PaginationResponseModel<T>()
@@ -137,9 +94,6 @@ namespace KhatiExtendedEF.Repositories
 
             return model;
         }
-
-
-        #endregion
 
         #region Reflections
         private Type? GetImplementedInterface(Type type)
