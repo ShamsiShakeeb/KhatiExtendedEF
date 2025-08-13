@@ -8079,7 +8079,6 @@
     "net8.0": [
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.13",
       "Microsoft.EntityFrameworkCore >= 8.0.13",
-      "Microsoft.EntityFrameworkCore.Design >= 8.0.13",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.13",
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.13",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.13",
@@ -8091,7 +8090,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "8.0.19",
+    "version": "8.0.23",
     "restore": {
       "projectUniqueName": "C:\\MyProductionLibrary\\KhatiExtendedEF\\KhatiExtendedEF\\KhatiExtendedEF.csproj",
       "projectName": "KhatiExtendedEF",
@@ -8142,12 +8141,6 @@
             "version": "[8.0.13, )"
           },
           "Microsoft.EntityFrameworkCore": {
-            "target": "Package",
-            "version": "[8.0.13, )"
-          },
-          "Microsoft.EntityFrameworkCore.Design": {
-            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-            "suppressParent": "All",
             "target": "Package",
             "version": "[8.0.13, )"
           },

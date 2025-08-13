@@ -110,28 +110,58 @@ remove-migration -Context PersonDBContext
 ```csharp
 public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
         private readonly IRepository<Student> _studentRepo;
-
-        public HomeController(IRepository<Student> studentRepo)
+        private readonly IUnitOfWork<IEntity> _unitOfWork;
+        public HomeController(ILogger<HomeController> logger, IRepository<Student> studentRepo,
+            IUnitOfWork<IEntity> unitOfWork)
         {
-            _studentRepo = studentRepo;
+            _studentRepo = studentRepo; 
+            _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             var model = new Student()
             {
-                Name = "Khati Group"
+                Name = "Washiq"
+            };
+            var result = await _unitOfWork.Commit(async () =>
+            {
+                var res = await _studentRepo.InsertAsync(model);
+                return res;
+            });
+
+            var model1 = new Student()
+            {
+                Name = "A"
             };
 
-            var result = await _studentRepo.Commit(async () =>
+            var model2 = new Student()
             {
-                await _studentRepo.Insert(model);  
-            });
-            
-            var get = await _studentRepo.GetListAsync();
+                Name = "B"
+            };
 
-            return View();
+            var model3 = new Student()
+            {
+                Name = "C"
+            };
+
+            List<Student> students = new List<Student> { model1, model2, model3 };
+
+            var result1 = await _unitOfWork.Commit(async () =>
+            {
+                await _studentRepo.InsertRangeAsync(students);
+            });
+
+            var get = await _studentRepo.GetListAsync();
+            var paginate = await _studentRepo.GetPagination(x => true, 1, 1);
+            return Ok(new
+            {
+                all = get,
+                paginate = paginate
+            });
         }
     }
 ```

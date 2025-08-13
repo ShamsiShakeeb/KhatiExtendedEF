@@ -119,13 +119,17 @@ namespace KhatiExtendedEF.Repositories
 
             if (dbContextType == null)
             {
-                contextInherited = typeof(DatabaseContextIdentityUser<,>).MakeGenericType(entityType, typeof(IdentityUser));
-
-                dbContextType = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => contextInherited.IsAssignableFrom(p) && !p.IsAbstract)
-                .FirstOrDefault();
-
+                 dbContextType = AppDomain.CurrentDomain
+                                .GetAssemblies()
+                                .SelectMany(s => s.GetTypes())
+                                .Where(p =>
+                                    !p.IsAbstract &&
+                                    p.BaseType != null &&
+                                    p.BaseType.IsGenericType &&
+                                    p.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContextIdentityUser<,>) &&
+                                    p.BaseType.GetGenericArguments()[0] == entityType
+                                )
+                                .FirstOrDefault();
             }
 
             if (dbContextType == null)

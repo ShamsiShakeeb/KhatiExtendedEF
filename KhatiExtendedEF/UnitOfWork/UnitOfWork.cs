@@ -76,7 +76,7 @@ namespace KhatiExtendedEF.UnitOfWork
                 return (false, default(T), "Operation Failed", ex.Message);
             }
         }
-        private Type GetDbContextForEntity(Type entityType)
+        private static Type GetDbContextForEntity(Type entityType)
         {
             var dbContextType = AppDomain.CurrentDomain
                 .GetAssemblies()
@@ -85,8 +85,13 @@ namespace KhatiExtendedEF.UnitOfWork
                     !t.IsAbstract &&
                     t.BaseType != null &&
                     t.BaseType.IsGenericType &&
-                    t.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContext<>) &&
-                    t.BaseType.GetGenericArguments()[0] == entityType);
+                    (
+                        t.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContext<>) ||
+                        t.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContextIdentityUser<,>)
+                    )
+                    &&
+                    t.BaseType.GetGenericArguments()[0] == entityType
+                );
 
             if (dbContextType == null)
                 throw new InvalidOperationException($"No DbContext found for entity type {entityType.Name}");
@@ -94,6 +99,6 @@ namespace KhatiExtendedEF.UnitOfWork
             return dbContextType;
         }
     }
-    
+
 }
 
