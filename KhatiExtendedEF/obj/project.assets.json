@@ -8091,7 +8091,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "8.0.23",
+    "version": "8.0.24",
     "restore": {
       "projectUniqueName": "C:\\MyProductionLibrary\\KhatiExtendedEF\\KhatiExtendedEF\\KhatiExtendedEF.csproj",
       "projectName": "KhatiExtendedEF",
