@@ -87,7 +87,8 @@ namespace KhatiExtendedEF.UnitOfWork
                     t.BaseType.IsGenericType &&
                     (
                         t.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContext<>) ||
-                        t.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContextIdentityUser<,>)
+                        t.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContextIdentityUser<,>) ||
+                        t.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContextTypeOfIdentityUser<,,>)
                     )
                     &&
                     t.BaseType.GetGenericArguments()[0] == entityType

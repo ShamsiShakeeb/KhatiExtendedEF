@@ -127,6 +127,7 @@ namespace KhatiExtendedEF.Repositories
                                     p.BaseType != null &&
                                     p.BaseType.IsGenericType &&
                                     p.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContextIdentityUser<,>) &&
+                                    p.BaseType.GetGenericTypeDefinition() == typeof(DatabaseContextTypeOfIdentityUser<,,>) &&
                                     p.BaseType.GetGenericArguments()[0] == entityType
                                 )
                                 .FirstOrDefault();
