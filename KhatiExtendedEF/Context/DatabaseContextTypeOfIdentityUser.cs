@@ -11,83 +11,129 @@ namespace KhatiExtendedEF.Context
 	where TIdentity : IdentityUser<TKey>
 	where TKey : IEquatable<TKey>
 	{
-		public virtual string connectionString()
-		{
-			return "";
-		}
-
+		public virtual string connectionString() => "";
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			if (!optionsBuilder.IsConfigured)
-			{
-				optionsBuilder.UseSqlServer(connectionString());
-			}
+			optionsBuilder.UseSqlServer(connectionString());
 		}
-
 		private Type EntityType()
 		{
 			return typeof(T);
 		}
 
-		// ... [Your existing reflection helper methods remain unchanged] ...
-		// ... [GetTypeFromDifferentAssembly method] ...
+		private Type? GetTypeFromDifferentAssembly(string typeName)
+		{
+
+			if (typeName == "Microsoft.Data.SqlClient") // Skip if it's the problematic assembly
+				return typeof(T);
+
+			Type? type = Type.GetType(typeName);
+
+			if (type != null)
+			{
+				return type;
+			}
+			else
+			{
+				Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+				foreach (Assembly assembly in assemblies)
+				{
+					Type[] types;
+					try
+					{
+						if (assembly.GetName().Name == "Microsoft.Data.SqlClient") // Skip if it's the problematic assembly
+							continue;
+
+						types = assembly.GetTypes();
+					}
+					catch (ReflectionTypeLoadException ex)
+					{
+						types = ex.Types;
+					}
+
+					foreach (Type t in types)
+					{
+						if (t.FullName == typeName)
+						{
+							return t;
+						}
+					}
+				}
+
+				return null;
+			}
+		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 
-			// Your existing reflection logic
-			List<EntityContext> list = new List<EntityContext>();
-			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			List<EntityContext> types = new List<EntityContext>();
 
-			foreach (Assembly assembly in assemblies)
+			var assembilies = AppDomain.CurrentDomain.GetAssemblies();
+
+			foreach (var assembly in assembilies)
 			{
 				try
 				{
-					if (assembly.GetName().Name == "Microsoft.Data.SqlClient") continue;
 
-					// Added simple null check logic to your loop
-					var distinctTypes = assembly.GetTypes()
-						.Where(type => EntityType().IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
-						.Select(type => new { type.FullName, type.Name })
+					if (assembly.GetName().Name == "Microsoft.Data.SqlClient") // Skip if it's the problematic assembly
+						continue;
+
+					var implementingClasses = assembly.GetTypes()
+						.Where(type => EntityType().IsAssignableFrom(type) && type.IsClass)
+						.Select(type => new { FullName = type.FullName, Name = type.Name })
 						.ToArray();
 
-					foreach (var anon in distinctTypes)
+					foreach (var item in implementingClasses)
 					{
-						if (string.IsNullOrEmpty(anon.FullName)) continue;
+						if (item == null || string.IsNullOrEmpty(item.FullName))
+							throw new Exception(string.Format("Class Value Null Found"));
 
-						Type typeFromDifferentAssembly = assembly.GetType(anon.FullName); // Simplified lookup
+						Type? entityType = GetTypeFromDifferentAssembly(item.FullName);
 
-						if (typeFromDifferentAssembly != null)
+						if (entityType == null)
+							throw new Exception(string.Format("{0} Cannot Converted to Entity", item));
+
+						var model = new EntityContext()
 						{
-							list.Add(new EntityContext
-							{
-								Entity = anon.Name,
-								Type = typeFromDifferentAssembly
-							});
-						}
+							Entity = item.Name,
+							Type = entityType,
+						};
+
+						types.Add(model);
 					}
 				}
-				catch (Exception ex) {
-					throw new Exception(string.Format("Error From KhatiExtendedEf: ", ex.Message));
+				catch (Exception ex)
+				{
+
 				}
 			}
 
-			ConfigureEntities(modelBuilder, list);
+			ConfigureEntities(modelBuilder, types);
 		}
-
 		private void ConfigureEntities(ModelBuilder modelBuilder, List<EntityContext> types)
 		{
-			foreach (var item in types)
+			for (int i = 0; i < types.Count; i++)
 			{
-				if (item != null && item.Type != null && !string.IsNullOrEmpty(item.Entity))
+				if (types[i] == null || types[i].Type == null)
 				{
-					modelBuilder.Entity(item.Type).ToTable(item.Entity);
+					throw new Exception("Entity Type Creation Error");
 				}
+
+				else if (string.IsNullOrEmpty(types[i].Entity))
+				{
+					throw new Exception("Entity Type is Null");
+				}
+
+				modelBuilder.Entity(types[i].Type).ToTable(types[i].Entity);
 			}
+
 			EntityBinder(modelBuilder);
 		}
+		public virtual void EntityBinder(ModelBuilder modelBuilder)
+		{
 
-		public virtual void EntityBinder(ModelBuilder modelBuilder) { }
+		}
 	}
 }
